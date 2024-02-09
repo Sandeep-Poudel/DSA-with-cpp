@@ -12,71 +12,74 @@ struct Queue
         rear = -1;
         front = 0;
     }
-
-    void enqueue()
-    {
-        if (rear == size - 1)
-        {
-            cout << "Queue is full" << endl;
-            getchar();
-            return;
-        }
-        cout << "Enter value to enqueue:" << endl;
-        cin >> data[++rear];
-        cout << data[rear] << " enqueued " << endl;
-        getchar();
-    }
-
-    void dequeue()
-    {
-        if (rear < front)
-        {
-            cout << "Queue is empty!" << endl;
-            getchar();
-
-            return;
-        }
-        cout << data[front] << "dequeued" << endl;
-        front += 1;
-        getchar();
-    }
-
-    void dequeueShifting()
-    {
-        if (rear < front)
-        {
-            cout << "Queue is empty!" << endl;
-            getchar();
-            return;
-        }
-        for (int i = front; i < rear; i++)
-        {
-            data[i] = data[i + 1];
-        }
-        rear -= 1;
-        getchar();
-    }
-
-    void display()
-    {
-        for (int i = front; i <= rear; i++)
-        {
-            cout << data[i]<<"   ";
-            if(i ==rear){
-                cout<<endl;
-            }
-        }
-
-        getchar();
-    }
 };
+
+void enqueue(Queue *q)
+{
+    if (q->rear == size - 1)
+    {
+        cout << "Queue is full" << endl;
+        getchar();
+        return;
+    }
+    cout << "Enter value to enqueue:" << endl;
+    cin >> q->data[++q->rear];
+    cout << q->data[q->rear] << " enqueued " << endl;
+    getchar();
+}
+
+void dequeue(Queue *q)
+{
+    if (q->rear < q->front)
+    {
+        cout << "Queue is empty!" << endl;
+        getchar();
+
+        return;
+    }
+    cout << q->data[q->front] << "dequeued" << endl;
+    q->front += 1;
+    getchar();
+}
+
+void dequeueShifting(Queue *q)
+{
+    if (q->rear < q->front)
+    {
+        cout << "Queue is empty!" << endl;
+        getchar();
+        return;
+    }
+    for (int i = q->front; i < q->rear; i++)
+    {
+        q->data[i] = q->data[i + 1];
+    }
+    q->rear -= 1;
+    getchar();
+}
+
+void display(Queue *q)
+{
+    for (int i = q->front; i <= q->rear; i++)
+    {
+        cout << q->data[i] << "   ";
+        if (i == q->rear)
+        {
+            cout << endl;
+        }
+    }
+
+    getchar();
+}
+
+;
 
 void clear()
 {
     system("clear");
 }
 
-int menu(Queue &q)
+int menu(Queue *q)
 {
     clear();
     int choice;
@@ -86,21 +89,22 @@ int menu(Queue &q)
     switch (choice)
     {
     case 1:
-        q.enqueue();
+        enqueue(q);
         getchar();
         break;
     case 2:
-        q.dequeue();
+        dequeue(q);
         getchar();
         break;
     case 3:
-        q.dequeueShifting();
+        dequeueShifting(q);
         getchar();
         break;
     case 4:
-        q.display();
+        display(q);
         getchar();
         break;
+
     case 0:
         exit(0);
     }
@@ -112,6 +116,6 @@ int main()
     Queue q;
     while (true)
     {
-        menu(q);
+        menu(&q);
     }
 }
